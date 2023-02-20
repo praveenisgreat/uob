@@ -27,6 +27,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Customer extends AuditModel{
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -34,12 +36,12 @@ public class Customer extends AuditModel{
 
 	@Column(name = "first_name")
     @NotBlank
-    @Size(min = 4, max = 40)
+    @Size(min = 2, max = 40)
     private String firstName;
 
     @Column(name = "last_name")
     @NotBlank
-    @Size(min = 4, max = 40)
+    @Size(min = 2, max = 40)
     private String lastName;
 
     @Column(name = "date_of_birth")
@@ -49,14 +51,17 @@ public class Customer extends AuditModel{
 
 	@Column(name = "race")
     @NotBlank
+    @Size(min = 4, max = 10)
     private String race;
     
     @Column(name = "nationality")
     @NotBlank
+    @Size(min = 2, max = 10)
     private String nationality;
     
     @Column(name = "residencial_status")
     @NotBlank
+    @Size(min = 2, max = 10)
     private String residencialStatus;
     
     @Column(name = "contact_no")
@@ -64,6 +69,7 @@ public class Customer extends AuditModel{
     private String contactNo;
     
     @Column(name = "username")
+    @Size(min = 5, max = 15)
     private String username;
 
     @Column(name = "email")

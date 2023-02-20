@@ -25,6 +25,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Address extends AuditModel{
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -47,13 +49,33 @@ public class Address extends AuditModel{
 
     @Column(name = "line_2")
     private String line2;
+    
+    @Column(name = "line_3")
+    private String line3;
 
+    @Column(name = "line_4")
+    private String line4;
+    
+    @Column(name = "country")
+    @NotBlank
+    private String country;
+    
+    @Column(name = "state")
+    @NotBlank
+    private String state;
+    
+    @Column(name = "district")
+    private String district;
+    
+    @Column(name = "province")
+    private String province;
+    
 	@Column(name = "postal_code")
     @NotBlank
     private String postalCode;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Customer custommer;

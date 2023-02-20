@@ -82,6 +82,6 @@
         <module>gateway-api</module>
         <module>auth-api</module>
         <module>db-services</module>
-        <module>customer-service</module>
+        <module>customer-services</module>
     </modules>
 </project>

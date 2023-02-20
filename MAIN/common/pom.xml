@@ -7,7 +7,6 @@
 	</parent>
 	<groupId>com.ms.core.common</groupId>
 	<artifactId>common</artifactId>
-	<version>0.0.1</version>
 	<packaging>jar</packaging>
 	
 	<name>Common</name>
