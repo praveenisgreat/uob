@@ -1,0 +1,3 @@
+INSERT INTO uob.roles(name) VALUES('ROLE_PREPARER');
+INSERT INTO uob.roles(name) VALUES('ROLE_APPROVER');
+INSERT INTO uob.roles(name) VALUES('ROLE_ADMIN');

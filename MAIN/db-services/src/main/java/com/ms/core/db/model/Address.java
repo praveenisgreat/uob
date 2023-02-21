@@ -17,14 +17,17 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "Address")
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper=false)
+@RequiredArgsConstructor
+@Data
 public class Address extends AuditModel{
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -78,6 +81,5 @@ public class Address extends AuditModel{
     @JoinColumn(name = "customer_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private Customer custommer;
-    
+    private Customer customer;
 }

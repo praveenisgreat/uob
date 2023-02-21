@@ -17,12 +17,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 
 @Entity
 @Table(name = "User")
-@Data
 @EqualsAndHashCode(callSuper=false)
+@RequiredArgsConstructor
+@Data
 public class UserModel extends AuditModel{
 
 	private static final long serialVersionUID = 1L;
@@ -67,13 +69,9 @@ public class UserModel extends AuditModel{
     private Long bonus;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Employee_roles",
+    @JoinTable(name = "User_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     private Set<RoleModel> roles = new HashSet<RoleModel>();
-
-    public UserModel() {
-
-    }
 }
