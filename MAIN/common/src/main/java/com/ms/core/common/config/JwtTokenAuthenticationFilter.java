@@ -36,7 +36,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             token = token.replace(config.getPrefix() + " ", "");
             try {
                 Claims claims = Jwts.parser()
-                        .setSigningKey(config.getSecret().getBytes())
+                        .setSigningKey(config.getAccessSecret().getBytes())
                         .parseClaimsJws(token)
                         .getBody();
                 String username = claims.getSubject();

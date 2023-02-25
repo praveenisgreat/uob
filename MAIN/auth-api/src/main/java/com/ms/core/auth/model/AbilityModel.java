@@ -11,12 +11,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import lombok.Data;
 
 @Entity
-@Table(name = "Roles")
+@Table(name = "Ability")
 @Data
-public class RoleModel {
+public class AbilityModel {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,13 +26,19 @@ public class RoleModel {
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Column(length = 60)
-    private RoleName name;	
+    private AbilityAction action;	
     
-    public RoleModel() {
+    @Enumerated(EnumType.STRING)
+    @NaturalId
+    @Column(length = 60)
+    private AbilitySubject subject;	
+    
+    public AbilityModel() {
 
     }
     
-    public RoleModel(RoleName name) {
-        this.name = name;
+    public AbilityModel(AbilityAction action, AbilitySubject subject) {
+        this.action = action;
+        this.subject = subject;
     }
 }

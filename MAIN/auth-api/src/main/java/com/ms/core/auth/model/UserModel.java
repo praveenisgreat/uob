@@ -9,10 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 
 @Entity
-@Table(name = "User")
+@Table(name = "ro")
 @EqualsAndHashCode(callSuper=false)
 @RequiredArgsConstructor
 @Data
@@ -40,38 +41,38 @@ public class UserModel extends AuditModel{
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "date_of_birth")
-    private String dateOfBirth;
-
-    @Column(name = "hiring_date")
-    private String hiringDate;
-
-    @Column(name = "province")
-    private String province;
-
-    @Column(name = "postal_code")
-    private String postalCode;
-
     @Column(name = "username")
     private String username;
-
-    @Column(name = "email")
-    private String email;
-
+    
     @Column(name = "password")
     @JsonIgnore
     private String password;
-
-    @Column (name = "salary")
-    private Long salary;
-
-    @Column (name = "bonus")
-    private Long bonus;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "User_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    
+    @Column(name = "avatar")
+    private String avatar;
+    
+    @Column(name = "email")
+    private String email;
+    
+    @Column(name = "role")
+    private String role;
+    
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+    		name = "User_ability",
+    		joinColumns = { @JoinColumn(name = "ro_id") }, 
+    		inverseJoinColumns = { @JoinColumn(name = "ability_id") }
+            )
     @JsonIgnore
-    private Set<RoleModel> roles = new HashSet<RoleModel>();
+    private Set<AbilityModel> ability = new HashSet<>();
+    
+    /*
+    @ManyToMany(fetch = FetchType.LAZY) 
+    @JoinTable(name = "User_ability",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "ability_id"))
+    @JsonIgnore
+    private Set<AbilityModel> ability = new HashSet<>();
+    */
+    
 }
