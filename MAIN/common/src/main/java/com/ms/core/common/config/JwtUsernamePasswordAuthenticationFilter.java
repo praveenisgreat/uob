@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
@@ -18,9 +20,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.ms.core.common.config.model.UserAuth;
+import com.ms.core.common.transform.JsonOrganizer;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -35,7 +41,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends AbstractAuthenticat
 
     private final JwtAuthenticationConfig config;
     private final ObjectMapper mapper;
-
+    
     public JwtUsernamePasswordAuthenticationFilter(JwtAuthenticationConfig config, AuthenticationManager authManager) {
         super(new AntPathRequestMatcher(config.getUrl(), "POST"));
         setAuthenticationManager(authManager);
@@ -72,14 +78,20 @@ public class JwtUsernamePasswordAuthenticationFilter extends AbstractAuthenticat
                 .signWith(SignatureAlgorithm.HS256, config.getAccessSecret().getBytes())
                 .compact();
         System.out.println(auth.getPrincipal());
-        // create a new Gson instance
-        Gson gson = new Gson();
-        // convert your list to json
-        String jsonCartList = gson.toJson(auth.getPrincipal());
-        // print your generated json
-        System.out.println("jsonCartList: " + jsonCartList);
         try {
-			rsp.getWriter().write(jsonCartList);
+        	ObjectWriter objWr;
+        	ObjectMapper mapper = new ObjectMapper();
+        	
+        	mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        	JsonNode node = mapper.valueToTree(auth.getPrincipal());
+        	
+        	JsonOrganizer jsonOrganizer = new JsonOrganizer(auth, "ability", "id");
+            JsonNode result = jsonOrganizer.removeByField();
+        	System.out.println("Results="+result);
+        	objWr = mapper.writer().withDefaultPrettyPrinter();
+        	String json = objWr.writeValueAsString(result);
+        	
+			rsp.getWriter().write(json);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
