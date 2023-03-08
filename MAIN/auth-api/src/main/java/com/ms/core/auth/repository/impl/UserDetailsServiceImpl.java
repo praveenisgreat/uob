@@ -23,7 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		// User can login with either username or email
         UserModel user = repository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("User not found with username : " + username));
-		return UserPrincipalImpl.create(user);
+        System.out.println("loadUserByUsername="+username);
+		return UserPrincipal.create(user);
 	}
 
 	// This method is used by JWTAuthenticationFilter
@@ -32,6 +33,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     	UserModel user = repository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + id));
 
-        return UserPrincipalImpl.create(user);
+        return UserPrincipal.create(user);
     }
 }

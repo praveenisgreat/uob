@@ -17,27 +17,20 @@ public class SignupRequest {
 	private String lastName;
 
 	@NotBlank
-	private String dateOfBirth;
-
-	@NotBlank
-	private String hiringDate;
-
-	@NotBlank
-	private String province;
-
-	@NotBlank
-	private String postalCode;
-
-	@NotBlank
 	@Size(min = 3, max = 15)
 	private String username;
 
 	@NotBlank
-	@Size(max = 40)
+	private String password;
+
+	@NotBlank
+	private String avatar;
+
+	@NotBlank
 	@Email
 	private String email;
 
 	@NotBlank
-	@Size(min = 6, max = 20)
-	private String password;
+	@Size(max = 10)
+	private String role;
 }

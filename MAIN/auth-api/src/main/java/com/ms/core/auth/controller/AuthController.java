@@ -9,13 +9,17 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ms.core.auth.exception.AppException;
-import com.ms.core.auth.model.RoleModel;
-import com.ms.core.auth.model.RoleName;
+import com.ms.core.auth.model.AbilityAction;
+import com.ms.core.auth.model.AbilityModel;
 import com.ms.core.auth.model.UserModel;
-import com.ms.core.auth.repository.RoleRepository;
+import com.ms.core.auth.repository.AbilityRepository;
 import com.ms.core.auth.repository.UserRepository;
 import com.ms.core.auth.request.ApiResponse;
 import com.ms.core.auth.request.SignupRequest;
@@ -28,7 +32,7 @@ public class AuthController {
 	UserRepository userRepository;
 	
 	@Autowired
-	RoleRepository roleRepository;
+	AbilityRepository abilityRepository;
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -44,7 +48,6 @@ public class AuthController {
 	
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest){
-		System.out.println("AuthController......."+signUpRequest.getUsername());
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return new ResponseEntity<Object>(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
 		}
@@ -57,18 +60,16 @@ public class AuthController {
 		UserModel userModel = new UserModel();
 		userModel.setFirstName(signUpRequest.getFirstName());
 		userModel.setLastName(signUpRequest.getLastName());
-		userModel.setDateOfBirth(signUpRequest.getDateOfBirth());
-		userModel.setHiringDate(signUpRequest.getHiringDate());
-		userModel.setProvince(signUpRequest.getProvince());
-		userModel.setPostalCode(signUpRequest.getPostalCode());
 		userModel.setUsername(signUpRequest.getUsername());
-		userModel.setEmail(signUpRequest.getEmail());
 		userModel.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+		userModel.setAvatar(signUpRequest.getAvatar());
+		userModel.setEmail(signUpRequest.getEmail());
+		userModel.setRole(signUpRequest.getRole());
 		
-		RoleModel userRole = roleRepository.findByName(RoleName.ROLE_PREPARER)
-				.orElseThrow(() -> new AppException("User Role not set."));
+		AbilityModel userAbility = abilityRepository.findByAction(AbilityAction.MANAGE)
+				.orElseThrow(() -> new AppException("User Ability not set."));
+		userModel.setAbility(Collections.singleton(userAbility));
 		
-		userModel.setRoles(Collections.singleton(userRole));
 		userRepository.save(userModel);
 		return ResponseEntity.status(HttpStatus.OK)
                 .body("Employee registered successfully");

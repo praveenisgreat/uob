@@ -19,14 +19,17 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "Customer")
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper=false)
+@RequiredArgsConstructor
+@Data
 public class Customer extends AuditModel{
+
 	private static final long serialVersionUID = 1L;
 
 	@Id

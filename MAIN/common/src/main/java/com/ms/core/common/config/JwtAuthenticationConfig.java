@@ -27,5 +27,5 @@ public class JwtAuthenticationConfig {
     private int expiration; // default 24 hours
 
     @Value("${security.jwt.secret:uobpoc}")
-    private String secret;
+    private String accessSecret;
 }

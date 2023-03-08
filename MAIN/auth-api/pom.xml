@@ -31,6 +31,12 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+	 	<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.26</version><!--$NO-MVN-MAN-VER$-->
+			<scope>provided</scope>
+		</dependency>
         <dependency>
             <groupId>com.ms.core.common</groupId>
             <artifactId>common</artifactId>
